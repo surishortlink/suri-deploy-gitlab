@@ -1,0 +1,33 @@
+default:
+  image: node:lts-alpine
+
+# Only run pipelines for merge requests and the default branch, so a branch
+# with an open merge request doesn't run two pipelines for the same commit.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+.build:
+  script:
+    - npm ci
+    - npm run build
+
+# Merge requests are built without deploying, so a mistake in `links.json` is
+# caught before it's merged.
+build:
+  extends: .build
+  stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+deploy-pages:
+  extends: .build
+  stage: deploy
+  pages:
+    publish: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  environment: production
+  # Run one deployment at a time, so two quick pushes can't deploy at once.
+  resource_group: production
