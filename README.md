@@ -17,11 +17,15 @@ Suri, including additional deployment options.
 1. On [GitLab](https://gitlab.com/), hit "Create new" > "New project/repository"
    in the upper-right corner, then "Import project" and "Repository by URL".
 2. Enter `https://github.com/surishortlink/suri-deploy-gitlab.git` as the "Git
-   repository URL". Choose the namespace and project name for your new project,
-   then hit "Create project".
-3. Go to "Build" > "Pipelines" of your new project and hit "New pipeline". Run
+   repository URL". Choose the namespace, project name, and visibility level for
+   your new project, then hit "Create project".
+3. If your new project is private, go to its "Settings" and head to the
+   "General" section. Expand "Visibility, project features, permissions", change
+   "Pages" to "Everyone", and hit "Save changes". Otherwise, only members of
+   your project can see your site.
+4. Go to "Build" > "Pipelines" of your new project and hit "New pipeline". Run
    it for the `main` branch to build and deploy your site for the first time.
-4. Go to "Deploy" > "Pages" to find your site's URL.
+5. Go to "Deploy" > "Pages" to find your site's URL.
 
 GitLab.com may ask you to verify your identity before running your first
 pipeline.
